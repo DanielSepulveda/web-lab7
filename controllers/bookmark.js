@@ -2,7 +2,7 @@ const Bookmark = require("../models/bookmark");
 const _ = require("lodash");
 
 exports.bookmarks_list = async (req, res) => {
-	const allBookmarks = await Bookmark.find();
+	const allBookmarks = await Bookmark.find().sort("-createdAt");
 	return res.status(200).json(allBookmarks);
 };
 

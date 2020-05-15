@@ -1,0 +1,225 @@
+<!doctype html>
+
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Students API</title>
+
+    <link rel="stylesheet" href="./css/index.css">
+  </head>
+
+  <body class="flex flex-col h-screen">
+    <header class="bg-gray-800">
+      <div class="container mx-auto px-8">
+        <div class="h-16 flex items-center text-white">
+          <h1 class="text-2xl">Bookmarks API</h1>
+        </div>
+      </div>
+    </header>
+
+    <div class="flex-1 mt-6 mb-10">
+      <main>
+        <div class="container mx-auto px-8">
+
+          <div class="flex">
+            <div class="bg-gray-300 py-4 px-3 rounded shadow-md max-w-xl">
+              <h2 class="text-xl">Add new bookmark</h2>
+              <form id="addBookmark" class="mt-3">
+                <div class="flex flex-wrap -mx-3">
+                  <div class="w-2/5 px-3">
+                    <label class="inputLabel" for="title">
+                      Title
+                    </label>
+                    <input class="input" id="title" type="text" placeholder="Bookmark title" required>
+                  </div>
+                  <div class="w-2/5 px-3">
+                    <label class="inputLabel" for="url">
+                      Url
+                    </label>
+                    <input class="input" id="url" type="text" placeholder="Bookmark url" required>
+                  </div>
+                  <div class="w-1/5 px-3 mb-0">
+                    <label class="inputLabel" for="rating">
+                      Rating
+                    </label>
+                    <div class="relative">
+                      <select class="select" id="rating">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                      </select>
+                      <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                          <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="w-full px-3">
+                    <label class="inputLabel" for="desc">
+                      Desc
+                    </label>
+                    <input class="input" id="desc" type="text" placeholder="Bookmark desc" required>
+                  </div>
+                </div>
+                <div class="mt-4 flex items-center">
+                  <button type="submit" class="btn-primary mr-3">Submit!</button>
+                  <p class="text-red-500 text-xs italic hidden">Please fill out all fields.</p>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div class="mt-8">
+            <h2 class="text-2xl tracking-wide font-medium">Bookmarks List</h2>
+            <form id="searchBookmark" class="mt-2 ">
+              <div class="flex items-center">
+                <input class="w-56 input inline-block mb-0 mr-3" id="search" type="text" placeholder="Search by title"
+                  required>
+                <button
+                  class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded mr-3"
+                  type="submit">
+                  Search
+                </button>
+                <button
+                  class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                  type="reset" id="resetSearch">
+                  Reset
+                </button>
+              </div>
+            </form>
+            <div class="mt-8 hidden empty-state justify-center flex-col items-center">
+              <h2 class="text-xl tracking-wide font-bold">You have no Bookmarks</h2>
+              <img class="h-64 mt-4" src="./img/empty.png" alt="Empty">
+            </div>
+            <div class="mt-8 hidden loader-state justify-center items-center">
+              <div class="loader"></div>
+            </div>
+            <table class="table-auto mt-3 w-full">
+              <thead>
+                <tr>
+                  <th class="px-4 py-2 text-left">Title</th>
+                  <th class="px-4 py-2 text-left">Url</th>
+                  <th class="px-4 py-2 text-left">Desc</th>
+                  <th class="px-4 py-2 text-left">Rating</th>
+                  <th class="px-4 py-2 text-left">Delete</th>
+                  <th class="px-4 py-2 text-left">Edit</th>
+                </tr>
+              </thead>
+              <tbody id="tableBody" class="table-strips">
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </main>
+    </div>
+
+
+
+    <div class="py-4 bg-gray-800 flex justify-center items-center text-white">
+      <small>Made with <span class="emoji">❤️</span> and <span class="emoji">☕️</span> by <a
+          href="https://github.com/DanielSepulveda" class="text-indigo-400 hover:underline" target="_blank"
+          rel="noopener">Daniel</a> @
+        <a href="https://tec.mx/es" target="_blank" rel="noopener"
+          class="text-indigo-400 hover:underline">Tec</a></small>
+    </div>
+
+    <!-- MODAL UPDATE -->
+    <div class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+      <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+      <div class="modal-container bg-white w-11/12 md:max-w-xl mx-auto rounded shadow-lg z-50 overflow-y-auto">
+        <div
+          class="modal-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">
+          <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+            viewBox="0 0 18 18">
+            <path
+              d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+            </path>
+          </svg>
+          <span class="text-sm">(Esc)</span>
+        </div>
+        <div class="modal-content py-4 text-left px-6">
+          <div class="flex justify-between items-center pb-3">
+            <p class="text-2xl font-bold" id="modalTitle"></p>
+            <div class="modal-close cursor-pointer z-50">
+              <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                viewBox="0 0 18 18">
+                <path
+                  d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+                </path>
+              </svg>
+            </div>
+          </div>
+
+          <form class="hidden" id="editBookmarkForm" action="#">
+            <div class="flex flex-wrap -mx-3">
+              <div class="w-2/5 px-3">
+                <label class="inputLabel" for="editTitle">
+                  Title
+                </label>
+                <input class="input" id="editTitle" type="text" placeholder="Bookmark title" required>
+              </div>
+              <div class="w-2/5 px-3">
+                <label class="inputLabel" for="editUrl">
+                  Url
+                </label>
+                <input class="input" id="editUrl" type="text" placeholder="Bookmark url" required>
+              </div>
+              <div class="w-1/5 px-3 mb-0">
+                <label class="inputLabel" for="editRating">
+                  Rating
+                </label>
+                <div class="relative">
+                  <select class="select" id="editRating">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                  </select>
+                  <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                      <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
+                  </div>
+                </div>
+              </div>
+              <div class="w-full px-3">
+                <label class="inputLabel" for="editDesc">
+                  Desc
+                </label>
+                <input class="input" id="editDesc" type="text" placeholder="Bookmark desc" required>
+              </div>
+            </div>
+            <div class="flex justify-end pt-2">
+              <button
+                class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded mr-3 modal-close"
+                type="button">
+                Close
+              </button>
+              <button class="btn-primary" type="submit">Edit</button>
+            </div>
+          </form>
+
+          <div id="modalError" class="hidden">
+            <p></p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- SNACKBAR -->
+    <div class="snack pointer-events-none">
+      <div class="px-4 py-3">
+        <h2 class="text-xl tracking-wide" data-snack="title"></h2>
+      </div>
+    </div>
+
+    <script src="./js/index.js"></script>
+  </body>
+
+</html>

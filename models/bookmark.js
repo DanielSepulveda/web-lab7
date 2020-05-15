@@ -28,6 +28,10 @@ const schema = new mongoose.Schema({
 		type: Number,
 		required: [true, "The rating must be a number"],
 	},
+	createdAt: {
+		type: Date,
+		default: Date.now,
+	},
 });
 
 const model = mongoose.model("Bookmark", schema);

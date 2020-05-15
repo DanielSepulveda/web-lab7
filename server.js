@@ -1,9 +1,10 @@
 require("dotenv").config();
 const express = require("express");
 const morgan = require("morgan");
-const authToken = require("./middleware/authToken");
-const bookmarks = require("./routes/bookmarks");
 const mongoose = require("mongoose");
+const authToken = require("./middleware/authToken");
+const cors = require("./middleware/cors");
+const bookmarks = require("./routes/bookmarks");
 
 /* Setup Mongoose */
 mongoose.connect(process.env.DB_URL, {
@@ -17,6 +18,8 @@ const db = mongoose.connection;
 const app = express();
 
 // Middlewares
+app.use(cors);
+app.use(express.static("public"));
 app.use(morgan("dev"));
 app.use(authToken);
 
