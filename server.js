@@ -17,11 +17,15 @@ const db = mongoose.connection;
 /* Setup App */
 const app = express();
 
+console.log("EXPRESS APP");
+
 // Middlewares
 app.use(cors);
-app.use(express.static("public"));
+app.use(express.static("./public"));
 app.use(morgan("dev"));
 app.use(authToken);
+
+console.log("ROUTES");
 
 // Routes
 app.use(bookmarks);

@@ -7,6 +7,8 @@ const BookmarkController = require("../controllers/bookmark");
 const router = express.Router();
 const jsonParser = bodyParser.json();
 
+console.log("BOOKMARKS");
+
 router.get("/bookmarks", BookmarkController.bookmarks_list);
 router.get("/bookmark", BookmarkController.bookmark_by_title);
 router.post("/bookmarks", jsonParser, BookmarkController.create_bookmark);
