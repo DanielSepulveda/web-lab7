@@ -39,7 +39,7 @@ app.all("*", (req, res) => {
 /* Init */
 db.once("open", () => {
 	console.log("Connected to the DB");
-	app.listen(8080, () => {
+	app.listen(process.env.PORT, () => {
 		console.log("Ther server is running on port 8080");
 	});
 });
