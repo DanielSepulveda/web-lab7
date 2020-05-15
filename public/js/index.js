@@ -295,6 +295,7 @@ const openSnack = (message, emoji, status = "positive") => {
 };
 
 const init = () => {
+	console.log("START GET");
 	fetchBookmarks();
 	addBookmark();
 	deleteBookmark();
