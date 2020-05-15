@@ -22,7 +22,7 @@ console.log("EXPRESS APP");
 // Middlewares
 app.use(cors);
 app.use(express.static("./public"));
-app.use(morgan("dev"));
+// app.use(morgan("dev"));
 app.use(authToken);
 
 console.log("ROUTES");
