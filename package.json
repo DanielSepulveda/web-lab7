@@ -4,15 +4,23 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"start": "nodemon server.js"
+		"seed": "node seed.js",
+		"buildcss": "postcss public/css/styles.css -o public/css/index.css",
+		"start": "node server.js"
 	},
 	"author": "",
 	"license": "MIT",
 	"dependencies": {
+		"autoprefixer": "^9.7.6",
 		"body-parser": "^1.19.0",
+		"dotenv": "^8.2.0",
 		"express": "^4.17.1",
 		"lodash": "^4.17.15",
+		"mongoose": "^5.9.10",
+		"mongoose-seed": "^0.6.0",
 		"morgan": "^1.10.0",
+		"postcss-cli": "^7.1.1",
+		"tailwindcss": "^1.4.6",
 		"uuid": "^7.0.3",
 		"yup": "^0.28.4"
 	}
